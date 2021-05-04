@@ -2,60 +2,42 @@
 
 function sliderImages() {
     const sliderItem = document.getElementsByClassName('slider__item');
-    const sliderItemLength = sliderItem.length;
     const sliderArrows = document.getElementsByClassName('slider__arrows');
     const sliderDots = document.getElementsByClassName('slider__dot');
-    const sliderDotsLength = sliderDots.length;
 
-    let slide;
+    let slide = 0;
     sliderDots[0].classList.add('slider__dot_active');
+
+    function showSliders(n) {
+        if (n < 0) {
+            slide = sliderItem.length - 1;
+        } else if (n > sliderItem.length - 1) {
+            slide = 0;
+        }
+
+        for (let i = 0; i < sliderItem.length; i++) {
+            sliderItem[i].classList.remove('slider__item_active');
+        }
+        for (let i = 0; i < sliderDots.length; i++) {
+            sliderDots[i].classList.remove('slider__dot_active');
+        }
+
+        sliderItem[slide].classList.add('slider__item_active');
+        sliderDots[slide].classList.add('slider__dot_active');
+    }
 
     function listingSliderForArrow(e) {
         let target = e.target;
 
         if (target.classList.contains('slider__arrow_next')) {
-            if (isNaN(slide) || slide == undefined) {
-                slide = 0;
-            }
-
             slide += 1;
-            if (slide >= sliderItemLength) {
-                slide = 0;
-                sliderItem[sliderItemLength - 1].classList.remove(
-                    'slider__item_active'
-                );
-                sliderDots[sliderDotsLength - 1].classList.remove(
-                    'slider__dot_active'
-                );
-                sliderDots[0].classList.toggle('slider__dot_active');
-            }
-
-            sliderItem[slide].classList.toggle('slider__item_active');
-            sliderItem[slide - 1].classList.remove('slider__item_active');
-
-            sliderDots[slide].classList.toggle('slider__dot_active');
-            sliderDots[slide - 1].classList.remove('slider__dot_active');
+            showSliders(slide);
+            console.log(slide);
         }
         if (target.classList.contains('slider__arrow_prev')) {
-            if (isNaN(slide) || slide == undefined) {
-                slide = sliderItemLength;
-            }
-
             slide -= 1;
-            if (slide < 0) {
-                slide = sliderItemLength - 1;
-            }
-            if (slide == sliderItemLength - 1) {
-                sliderItem[0].classList.remove('slider__item_active');
-                sliderDots[0].classList.remove('slider__dot_active');
-                sliderDots[slide].classList.toggle('slider__dot_active');
-            }
-
-            sliderItem[slide].classList.toggle('slider__item_active');
-            sliderItem[slide + 1].classList.remove('slider__item_active');
-
-            sliderDots[slide].classList.toggle('slider__dot_active');
-            sliderDots[slide + 1].classList.remove('slider__dot_active');
+            showSliders(slide);
+            console.log(slide);
         }
     }
 
@@ -63,24 +45,10 @@ function sliderImages() {
         let target = e.target;
         const dotsArr = [...sliderDots];
 
-        dotsArr.forEach((elem) => {
-            let index = elem;
+        target.classList.toggle('slider__dot_active');
+        slide = dotsArr.indexOf(target);
 
-            this.classList.toggle('slider__dot_active');
-
-            if (dotsArr.indexOf(target) == dotsArr.indexOf(index)) {
-                sliderItem[dotsArr.indexOf(target)].classList.toggle(
-                    'slider__item_active'
-                );
-            }
-        });
-
-        for (let i = 0; i < dotsArr.length; i++) {
-            if (dotsArr[i] != target) {
-                sliderItem[i].classList.remove('slider__item_active');
-                dotsArr[i].classList.remove('slider__dot_active');
-            }
-        }
+        showSliders(slide);
     }
 
     [...sliderArrows].forEach((elem) =>
@@ -89,6 +57,11 @@ function sliderImages() {
     [...sliderDots].forEach((elem) =>
         elem.addEventListener('click', listingSliderForDots)
     );
+
+    setInterval(function () {
+        slide += 1;
+        return showSliders(slide);
+    }, 1000);
 }
 
 sliderImages();
