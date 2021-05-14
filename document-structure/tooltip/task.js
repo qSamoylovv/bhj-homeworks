@@ -10,7 +10,8 @@ function clickTooltip() {
 
         tooltip.innerText = target.title;
         tooltip.classList.add('tooltip');
-        tooltip.classList.toggle('tooltip_active');
+        tooltip.classList.remove('tooltip_active');
+        tooltip.classList.add('tooltip_active');
         tooltip.style.left = target.getBoundingClientRect().left + 'px';
 
         target.appendChild(tooltip);
