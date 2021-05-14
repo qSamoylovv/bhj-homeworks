@@ -19,19 +19,14 @@ function todoList() {
     };
 
     const onChangeInput = () => input.value;
-    const getInputText = (e) => {
-        let key = e.key;
 
-        if (key.toLowerCase() == 'enter' && !buttonAdd) {
-            if (input.value.length <= 0) {
-                alert('Пустая заметка');
-                return;
-            }
-
-            taskCreate();
+    const addTask = () => {
+        if (input.value.trim().length <= 0) {
+            alert('Пустая заметка');
+            return;
         }
+        taskCreate();
     };
-    const addTask = () => taskCreate();
 
     const removeTask = (e) => {
         e.preventDefault();
@@ -44,7 +39,6 @@ function todoList() {
 
     form.addEventListener('submit', (e) => e.preventDefault());
 
-    document.addEventListener('keyup', getInputText);
     input.addEventListener('change', onChangeInput);
     buttonAdd.addEventListener('click', addTask);
     tasksList.addEventListener('click', removeTask);
