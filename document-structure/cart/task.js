@@ -52,6 +52,20 @@ function addingToCart() {
                 }
             }
 
+            // [...cartProducts.children].find((elem) => {
+            //     if (elem.dataset.id == productId + 1) {
+            //         const count = document.getElementsByClassName(
+            //             'cart__product-count'
+            //         );
+
+            //         count[productId].innerText =
+            //             +count[productId].innerText +
+            //             +productQuantityValue[productId].innerText;
+
+            //         return;
+            //     }
+            // });
+
             cartProducts.insertAdjacentHTML('beforeEnd', productToCart);
         }
     };
