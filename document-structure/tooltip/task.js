@@ -2,24 +2,19 @@
 
 function clickTooltip() {
     const hasTooltip = document.getElementsByClassName('has-tooltip');
-    const tooltip = document.createElement('div');
+    const tooltip = document.getElementsByClassName('tooltip')[0];
 
     const showTooltip = (e) => {
         e.preventDefault();
         let target = e.target;
 
-        tooltip.innerText = target.title;
-        tooltip.classList.add('tooltip');
-        tooltip.classList.remove('tooltip_active');
-        tooltip.classList.add('tooltip_active');
-        tooltip.style.left = target.getBoundingClientRect().left + 'px';
-
-        target.appendChild(tooltip);
-
-        for (let i = 0; i < hasTooltip.length; i++) {
-            if (hasTooltip[i] != target) {
-                hasTooltip[i].classList.remove('tooltip_active');
-            }
+        if (target.title == tooltip.innerText) {
+            tooltip.classList.toggle('tooltip_active');
+        } else {
+            tooltip.innerText = target.title;
+            tooltip.style.left = target.getBoundingClientRect().left + 'px';
+            tooltip.style.top = target.getBoundingClientRect().top + 20 + 'px';
+            tooltip.classList.add('tooltip_active');
         }
     };
 
