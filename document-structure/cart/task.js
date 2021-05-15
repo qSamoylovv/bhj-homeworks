@@ -11,7 +11,6 @@ function addingToCart() {
 
     const clickProduct = (e) => {
         let target = e.target;
-        console.log(target);
         let productId = target.closest('.product').dataset.id - 1;
 
         if (target.classList.contains('product__quantity-control_dec')) {
@@ -24,7 +23,6 @@ function addingToCart() {
         if (productQuantityValue[productId].innerText < 1) {
             productQuantityValue[productId].innerText = 1;
         }
-
         if (target.classList.contains('product__add')) {
             let productToCart = `
                 <div class="cart__product" data-id="${productId + 1}">
@@ -38,35 +36,24 @@ function addingToCart() {
                 </div>`;
 
             cart.classList.add('cart-show');
-            for (let i = 0; i < cartProducts.children.length; i++) {
-                if (cartProducts.children[i].dataset.id == productId + 1) {
-                    const count = document.getElementsByClassName(
-                        'cart__product-count'
-                    );
 
-                    count[productId].innerText =
-                        +count[productId].innerText +
-                        +productQuantityValue[productId].innerText;
-
-                    return;
+            let productInCart = [...cartProducts.children].find((elem) => {
+                if (elem.dataset.id == productId + 1) {
+                    return elem;
                 }
+            });
+
+            if (productInCart) {
+                const count = productInCart.getElementsByClassName(
+                    'cart__product-count'
+                )[0];
+
+                count.innerText =
+                    +count.innerText +
+                    +productQuantityValue[productId].innerText;
+            } else {
+                cartProducts.insertAdjacentHTML('beforeEnd', productToCart);
             }
-
-            // [...cartProducts.children].find((elem) => {
-            //     if (elem.dataset.id == productId + 1) {
-            //         const count = document.getElementsByClassName(
-            //             'cart__product-count'
-            //         );
-
-            //         count[productId].innerText =
-            //             +count[productId].innerText +
-            //             +productQuantityValue[productId].innerText;
-
-            //         return;
-            //     }
-            // });
-
-            cartProducts.insertAdjacentHTML('beforeEnd', productToCart);
         }
     };
 
