@@ -1,49 +1,43 @@
 'use strict';
 
 function checkedBox() {
-    const interests = document.getElementsByClassName('interests')[0];
+    const interests = document.getElementsByClassName('interest');
 
-    function clickCheckbox(e) {
+    const checkedParents = (e) => {
+        let target = e.currentTarget;
+        const inputsParentTarget = target.closest('ul').parentElement.firstElementChild.children;
+
+        [...inputsParentTarget].forEach((elem) => {
+            if (elem != e.target) {
+                elem.indeterminate = true;
+            }
+            if (e.target.checked == false) {
+                elem.indeterminate = false;
+            }
+        });
+    };
+
+    const checkedChildrens = (e) => {
         let target = e.target;
+        const inputsChildTarget = target.parentElement.parentElement.children;
 
-        // console.log(target.checked);
-        // console.log(target.parentElement);
-        // console.log(target.parentElement.nextElementSibling);
-        // console.log(target.parentElement.previousElementSibling);
-        // console.log(target.parentElement.innerText);
-        // console.log(target.parentElement.nextElementSibling.children);
-        // console.log(
-        //     target.closest('ul').parentElement.firstElementChild
-        //         .firstElementChild
-        // );
-
-        if (target.parentElement.nextElementSibling) {
-            let childParentNextElement =
-                target.parentElement.nextElementSibling.children;
-
-            [...childParentNextElement].forEach((elem) => {
-                elem.firstElementChild.firstElementChild.checked = true;
-
+        [...inputsChildTarget].forEach((elem) => {
+            const inputs = elem.getElementsByClassName('interest__check');
+            [...inputs].forEach((elem) => {
+                if (elem != target) {
+                    elem.checked = true;
+                }
                 if (target.checked == false) {
-                    elem.firstElementChild.firstElementChild.checked = false;
+                    elem.checked = false;
                 }
             });
-        }
+        });
+    };
 
-        // ДОДЕЛАТЬ ПОВЫШЕННЫЙ УРОВЕНЬ СЛОЖНОСТИ
-
-        if (target.checked == true) {
-            return (target.closest(
-                'ul'
-            ).parentElement.firstElementChild.firstElementChild.indeterminate = true);
-        } else {
-            target.closest(
-                'ul'
-            ).parentElement.firstElementChild.firstElementChild.indeterminate = false;
-        }
-    }
-
-    interests.addEventListener('change', clickCheckbox);
+    [...interests].forEach((elem) => {
+        elem.addEventListener('change', checkedChildrens);
+        elem.addEventListener('change', checkedParents);
+    });
 }
 
 checkedBox();
