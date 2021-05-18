@@ -1,37 +1,74 @@
 body {
-  font-family: 'Arial';
+    font-family: 'Arial';
 }
 
 .signin {
-  display: none;
+    display: none;
 }
 .signin_active {
-  display: block;
+    display: block;
 }
 .control {
-  padding: 20px;
-  border-radius: 25px;
-  border: 1px solid gray;
-  width: 200px;
-  box-sizing: border-box;
+    padding: 20px;
+    border-radius: 25px;
+    border: 1px solid gray;
+    width: 200px;
+    box-sizing: border-box;
 }
 
 .btn {
-  background: green;
-  color: white;
-  padding: 20px;
-  border-radius: 25px;
-  border: none;
-  display: block;
-  width: 200px;
-  box-sizing: border-box;
-  cursor: pointer;
+    background: green;
+    color: white;
+    padding: 20px;
+    border-radius: 25px;
+    border: none;
+    display: block;
+    width: 200px;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .welcome {
-  display: none;
+    display: none;
 }
 
 .welcome_active {
-  display: block;
+    display: block;
+}
+
+.modal {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100vh;
+    z-index: 777;
+    display: none;
+}
+
+.modal__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    padding: 45px 75px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.modal__button {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    border: 1px solid #fff;
+    padding: 5px;
+    background-color: transparent;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.modal__active {
+    display: block;
 }
