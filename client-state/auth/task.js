@@ -15,13 +15,16 @@ function signin() {
     const showModal = () => modal.classList.toggle('modal__active');
     const formInputsClear = (elem) => (elem.value = '');
     const logout = () => {
+        localStorage.removeItem('user_id');
+        userId.innerHTML = '';
         [...formInputs].forEach((elem) => formInputsClear(elem));
         loginWelcome.classList.remove('welcome_active');
         formContainer.classList.add('signin_active');
-
-        // document.location.reload();
-        // Изначально сделал просто обновление страницы для выхода, но потом подумал, что это неверно
-        // Как все же верно, обновление, мой подход выше или их комбо?
+    };
+    const showLoginProfile = (key) => {
+        formContainer.classList.remove('signin_active');
+        userId.insertAdjacentHTML('afterbegin', `${key}`);
+        loginWelcome.classList.add('welcome_active');
     };
     const sendForm = (e) => {
         e.preventDefault();
@@ -40,9 +43,8 @@ function signin() {
                     showModal();
                     [...formInputs].forEach((elem) => formInputsClear(elem));
                 } else {
-                    formContainer.classList.remove('signin_active');
-                    userId.insertAdjacentHTML('afterend', `${response.user_id}`);
-                    loginWelcome.classList.add('welcome_active');
+                    localStorage.setItem('user_id', `${response.user_id}`);
+                    showLoginProfile(response.user_id);
                 }
             }
         };
@@ -54,6 +56,11 @@ function signin() {
     form.addEventListener('submit', sendForm);
     buttonModalClose.addEventListener('click', showModal);
     buttonLogout.addEventListener('click', logout);
+    window.addEventListener('load', () => {
+        if (localStorage.getItem('user_id')) {
+            showLoginProfile(localStorage.getItem('user_id'));
+        }
+    });
 }
 
 signin();
