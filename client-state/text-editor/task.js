@@ -9,7 +9,7 @@ function loadText() {
 
     const clearEditor = () => {
         editor.value = '';
-        localStorage.clear();
+        localStorage.removeItem('editor');
     };
 
     editor.addEventListener('input', getInput);
