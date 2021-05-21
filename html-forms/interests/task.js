@@ -6,13 +6,24 @@ function checkedBox() {
     const checkedParents = (e) => {
         let target = e.currentTarget;
         const inputsParentTarget = target.closest('ul').parentElement.firstElementChild.children;
+        const targetChild = e.target.closest('ul').children;
 
-        [...inputsParentTarget].forEach((elem) => {
-            if (elem != e.target) {
-                elem.indeterminate = true;
-            }
+        [...inputsParentTarget].forEach((parent) => {
+            let inpt = [...targetChild].map((elem) => elem.querySelector('.interest__check'));
+
+            const everyCheckChild = [...inpt].every((elem) => elem.checked == true);
+            const someCheckChild = [...inpt].some((elem) => elem.checked == true);
+
             if (e.target.checked == false) {
-                elem.indeterminate = false;
+                parent.indeterminate = false;
+                parent.checked = false;
+            }
+            if (someCheckChild == true) {
+                parent.indeterminate = true;
+            }
+            if (everyCheckChild == true) {
+                parent.indeterminate = false;
+                parent.checked = true;
             }
         });
     };
@@ -23,6 +34,7 @@ function checkedBox() {
 
         [...inputsChildTarget].forEach((elem) => {
             const inputs = elem.getElementsByClassName('interest__check');
+
             [...inputs].forEach((elem) => {
                 if (elem != target) {
                     elem.checked = true;
